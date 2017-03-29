@@ -9,6 +9,7 @@ namespace RobotCrossing
     /// </summary>
     public class Game1 : Game
     {
+        bool whatever;
         GraphicsDeviceManager graphics;
         SpriteBatch spriteBatch;
 
