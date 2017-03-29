@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace RobotCrossing
 {
-    class TextureManager
+    static class TextureManager
     {
         static ContentManager contentManager;
         public static void Initialize(ContentManager content)
