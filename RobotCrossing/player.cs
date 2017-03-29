@@ -15,7 +15,8 @@ namespace RobotCrossing
         int frameTotalTime = 0;
         int currentFrame = 0;
         int currentState = 0;
-        int[] currentStateImageCount = {7,7,7,7,8,8,8,8,9,9,9,9,6,6,6,6,13,13,13,13,6 };
+        int[] currentStateImageCount = {7,7,7,7,8,8,8,8,9,9,9,9,6,6,6,6,13,13,13,13,6};
+        bool animating = false;
 
         int spriteWidth = 64;
         int spriteHeight = 64;
@@ -43,6 +44,7 @@ namespace RobotCrossing
             {
                 position.X -= 4;
                 currentState = 9;
+                
             }
             if (Keyboard.GetState().IsKeyDown(Keys.D))
             {
