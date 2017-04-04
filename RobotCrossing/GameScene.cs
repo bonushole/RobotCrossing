@@ -8,5 +8,6 @@ namespace RobotCrossing
 {
     class GameScene
     {
+
     }
 }

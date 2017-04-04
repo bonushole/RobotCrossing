@@ -9,7 +9,8 @@ namespace RobotCrossing
     /// </summary>
     public class Game1 : Game
     {
-        Player player;
+        Scene scene;
+        TitleScene titleScene;
         GraphicsDeviceManager graphics;
         SpriteBatch spriteBatch;
 
@@ -28,8 +29,10 @@ namespace RobotCrossing
         protected override void Initialize()
         {
             // TODO: Add your initialization logic here
-            
+            titleScene = new TitleScene(Content);
             TextureManager.Initialize(Content);
+
+            scene = titleScene;
 
             base.Initialize();
         }
@@ -43,7 +46,10 @@ namespace RobotCrossing
             // Create a new SpriteBatch, which can be used to draw textures.
             spriteBatch = new SpriteBatch(GraphicsDevice);
             Content.Load<Texture2D>("player");
+            Content.Load<Texture2D>("cursor");
+            Content.Load<SpriteFont>("spriteFont");
             player = new Player();
+            titleScene.LoadContent(Window);
             // TODO: use this.Content to load your game content here
         }
 
@@ -80,7 +86,7 @@ namespace RobotCrossing
             GraphicsDevice.Clear(Color.CornflowerBlue);
 
             spriteBatch.Begin();
-            player.Draw(spriteBatch);
+            scene.Draw(spriteBatch);
             spriteBatch.End();
 
             base.Draw(gameTime);
