@@ -11,6 +11,7 @@ namespace RobotCrossing
 {
     class Player
     {
+        
         int frameDuration = 50;
         int frameTotalTime = 0;
         int currentFrame = 0;
@@ -35,32 +36,47 @@ namespace RobotCrossing
 
             if (frameTotalTime >= frameDuration)
             {
-                frameTotalTime = 0;
-                currentFrame++;
-                currentFrame %= currentStateImageCount[currentState];
+                if (animating)
+                {
+                    frameTotalTime = 0;
+                    currentFrame++;
+                    currentFrame %= currentStateImageCount[currentState];
+                }
+                else
+                {
+                    currentFrame = 0;
+                }
             }
+           
 
             if (Keyboard.GetState().IsKeyDown(Keys.A))
             {
                 position.X -= 4;
                 currentState = 9;
-                
+                animating = true;
             }
-            if (Keyboard.GetState().IsKeyDown(Keys.D))
+            else if (Keyboard.GetState().IsKeyDown(Keys.D))
             {
                 position.X += 4;
                 currentState = 11;
+                animating = true;
                 
             }
-            if (Keyboard.GetState().IsKeyDown(Keys.W))
+            else if (Keyboard.GetState().IsKeyDown(Keys.W))
             {
                 position.Y -= 4;
                 currentState = 8;
+                animating = true;
             }
-            if (Keyboard.GetState().IsKeyDown(Keys.S))
+            else if (Keyboard.GetState().IsKeyDown(Keys.S))
             {
                 position.Y += 4;
                 currentState = 10;
+                animating = true;
+            }
+            else
+            {
+                animating = false;
             }
 
         }
