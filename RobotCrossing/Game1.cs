@@ -29,7 +29,7 @@ namespace RobotCrossing
         protected override void Initialize()
         {
             // TODO: Add your initialization logic here
-            titleScene = new TitleScene(Content);
+            titleScene = new TitleScene(Content, ()=>StartGame());
             TextureManager.Initialize(Content);
 
             scene = titleScene;
@@ -48,9 +48,14 @@ namespace RobotCrossing
             Content.Load<Texture2D>("player");
             Content.Load<Texture2D>("cursor");
             Content.Load<SpriteFont>("spriteFont");
-            player = new Player();
+            //player = new Player();
             titleScene.LoadContent(Window);
             // TODO: use this.Content to load your game content here
+        }
+        public void StartGame()
+        {
+            scene = new GameScene();
+            scene.LoadContent(Window);
         }
 
         /// <summary>
@@ -72,8 +77,8 @@ namespace RobotCrossing
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
                 Exit();
 
-            player.Update(gameTime);
 
+            scene.Update(gameTime);
             base.Update(gameTime);
         }
 

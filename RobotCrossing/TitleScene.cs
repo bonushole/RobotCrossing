@@ -22,10 +22,12 @@ namespace RobotCrossing
         Texture2D cursor;
         Vector2 cursorOffset;
         Rectangle buttonRect;
+        Action start;
 
-        public TitleScene(ContentManager content)
+        public TitleScene(ContentManager content, Action start)
         {
             this.content = content;
+            this.start = start;
         }
 
         public override void LoadContent(GameWindow window)
@@ -51,7 +53,7 @@ namespace RobotCrossing
         {
             if (Mouse.GetState().LeftButton == ButtonState.Pressed && buttonRect.Contains(Mouse.GetState().Position))
             {
-              //  SpaceInvaders.StartGame();
+                start();
             }
         }
 
