@@ -12,16 +12,18 @@ namespace RobotCrossing
     {
         Vector2 position;
         Texture2D texture;
+        float scale;
         
-        public GameObject(Texture2D texture, Vector2 position)
+        public GameObject(Texture2D texture, Vector2 position, float scale = 1 )
         {
             this.position = position;
             this.texture = texture;
+            this.scale = scale;
         }
 
         public void Draw(SpriteBatch spriteBatch)
         {
-            spriteBatch.Draw(texture, position);
+            spriteBatch.Draw(texture, position, scale:new Vector2(scale, scale));
         }
     }
 }

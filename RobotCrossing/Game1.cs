@@ -47,6 +47,7 @@ namespace RobotCrossing
             spriteBatch = new SpriteBatch(GraphicsDevice);
             Content.Load<Texture2D>("player");
             Content.Load<Texture2D>("cursor");
+            Content.Load<Texture2D>("rock");
             Content.Load<SpriteFont>("spriteFont");
             //player = new Player();
             titleScene.LoadContent(Window);

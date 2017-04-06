@@ -20,7 +20,7 @@ namespace RobotCrossing
 
             if (gameTime.TotalGameTime.TotalSeconds >= (lastspawn+spawnperiod))
             {
-                objects.Add(new GameObject(TextureManager.getTexture2D("cursor"), new Vector2(rnd.Next(100), rnd.Next(100))));
+                objects.Add(new GameObject(TextureManager.getTexture2D("rock"), new Vector2(rnd.Next(100), rnd.Next(100)), (float).1));
                 lastspawn = gameTime.TotalGameTime.TotalSeconds;
             }
         }
