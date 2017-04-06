@@ -25,10 +25,11 @@ namespace RobotCrossing
         Texture2D texture;
         public Vector2 position;
         
-        public Player()
+        public Player(GameWindow window)
         {
             texture = TextureManager.getTexture2D("player");
-            position = new Vector2(10,10);
+             position = new Vector2(window.ClientBounds.Width/2, window.ClientBounds.Height/2);
+           // position = new Vector2(90,90);
         }
         public void Update(GameTime gameTime)
         {

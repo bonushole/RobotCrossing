@@ -12,6 +12,6 @@ namespace RobotCrossing
     {
         public abstract void LoadContent(GameWindow window);
         public abstract void Update(GameTime gameTime);
-        public abstract void Draw(SpriteBatch spriteBatch);
+        public abstract void Draw(SpriteBatch spriteBatch, GameWindow window);
     }
 }

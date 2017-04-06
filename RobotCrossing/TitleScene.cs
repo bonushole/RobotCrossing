@@ -57,11 +57,13 @@ namespace RobotCrossing
             }
         }
 
-        public override void Draw(SpriteBatch spriteBatch)
+        public override void Draw(SpriteBatch spriteBatch, GameWindow window)
         {
+            spriteBatch.Begin();
             spriteBatch.DrawString(font, titleText, titlePos, Color.Yellow, 0, Vector2.Zero, titleScale, SpriteEffects.None, 1);
             spriteBatch.DrawString(font, buttonText, buttonPos, Color.WhiteSmoke, 0, Vector2.Zero, 1, SpriteEffects.None, 1);
             spriteBatch.Draw(cursor, Mouse.GetState().Position.ToVector2() - cursorOffset, scale : new Vector2((float) 0.1 , (float) 0.1));
+            spriteBatch.End();
         }
     }
 }

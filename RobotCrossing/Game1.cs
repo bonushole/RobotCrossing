@@ -90,9 +90,8 @@ namespace RobotCrossing
         {
             GraphicsDevice.Clear(Color.CornflowerBlue);
 
-            spriteBatch.Begin();
-            scene.Draw(spriteBatch);
-            spriteBatch.End();
+            scene.Draw(spriteBatch, Window);
+            
 
             base.Draw(gameTime);
         }
