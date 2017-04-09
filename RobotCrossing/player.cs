@@ -15,12 +15,13 @@ namespace RobotCrossing
         int frameDuration = 50;
         int frameTotalTime = 0;
         int currentFrame = 0;
-        int currentState = 0;
-        int[] currentStateImageCount = {7,7,7,7,8,8,8,8,9,9,9,9,6,6,6,6,13,13,13,13,6};
+        public int currentState = 2;
+        public int currentDirection = 0;
+        int[] currentStateImageCount = {7,8,9,6,13,6};
         bool animating = false;
 
-        int spriteWidth = 64;
-        int spriteHeight = 64;
+        public int spriteWidth = 64;
+        public int spriteHeight = 64;
 
         Texture2D texture;
         public Vector2 position;
@@ -41,49 +42,63 @@ namespace RobotCrossing
                 {
                     frameTotalTime = 0;
                     currentFrame++;
-                    currentFrame %= currentStateImageCount[currentState];
+                    if (currentState == 2)
+                    {
+                        currentFrame %= currentStateImageCount[currentState];
+                    }
+                    else if(currentFrame == currentStateImageCount[currentState])
+                    {
+                        currentState = 2;
+                    }
+
                 }
                 else
                 {
                     currentFrame = 0;
                 }
             }
-           
+            if (currentState == 2) {
+                if (Keyboard.GetState().IsKeyDown(Keys.Space))
+                {
+                    currentState = 1;
+                    currentFrame = 0;
+                    animating = true;
+                }
+                else if (Keyboard.GetState().IsKeyDown(Keys.A))
+                {
+                    position.X -= 4;
+                    currentDirection = 1;
+                    animating = true;
+                }
+                else if (Keyboard.GetState().IsKeyDown(Keys.D))
+                {
+                    position.X += 4;
+                    currentDirection = 3;
+                    animating = true;
 
-            if (Keyboard.GetState().IsKeyDown(Keys.A))
-            {
-                position.X -= 4;
-                currentState = 9;
-                animating = true;
-            }
-            else if (Keyboard.GetState().IsKeyDown(Keys.D))
-            {
-                position.X += 4;
-                currentState = 11;
-                animating = true;
-                
-            }
-            else if (Keyboard.GetState().IsKeyDown(Keys.W))
-            {
-                position.Y -= 4;
-                currentState = 8;
-                animating = true;
-            }
-            else if (Keyboard.GetState().IsKeyDown(Keys.S))
-            {
-                position.Y += 4;
-                currentState = 10;
-                animating = true;
-            }
-            else
-            {
-                animating = false;
+                }
+                else if (Keyboard.GetState().IsKeyDown(Keys.W))
+                {
+                    position.Y -= 4;
+                    currentDirection = 0;
+                    animating = true;
+                }
+                else if (Keyboard.GetState().IsKeyDown(Keys.S))
+                {
+                    position.Y += 4;
+                    currentDirection = 2;
+                    animating = true;
+                }
+                else
+                {
+                    animating = false;
+                }
             }
 
         }
         public void Draw(SpriteBatch spriteBatch)
         {
-            spriteBatch.Draw(texture, position, sourceRectangle: new Rectangle(currentFrame * spriteWidth, currentState * spriteHeight, spriteWidth, spriteHeight));
+            spriteBatch.Draw(texture, position, sourceRectangle: new Rectangle(currentFrame * spriteWidth, ((4 * currentState)+ currentDirection) * spriteHeight, spriteWidth, spriteHeight));
         }
     }
 }

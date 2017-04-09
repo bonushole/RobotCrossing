@@ -10,9 +10,9 @@ namespace RobotCrossing
 {
     class GameObject
     {
-        Vector2 position;
-        Texture2D texture;
-        float scale;
+        public Vector2 position;
+        public Texture2D texture;
+        public float scale;
         
         public GameObject(Texture2D texture, Vector2 position, float scale = 1 )
         {

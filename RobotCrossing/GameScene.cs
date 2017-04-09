@@ -20,8 +20,37 @@ namespace RobotCrossing
 
             if (gameTime.TotalGameTime.TotalSeconds >= (lastspawn+spawnperiod))
             {
-                objects.Add(new GameObject(TextureManager.getTexture2D("rock"), new Vector2(rnd.Next(100), rnd.Next(100)), (float).1));
+                objects.Add(new GameObject(TextureManager.getTexture2D("rock"), new Vector2(rnd.Next(1000), rnd.Next(1000)), (float).1));
                 lastspawn = gameTime.TotalGameTime.TotalSeconds;
+            }
+            if(player.currentState == 1)
+            {
+                Rectangle grabBox = new Rectangle(player.position.ToPoint(), new Point(player.spriteWidth, player.spriteHeight));
+                if(player.currentDirection == 0)
+                {
+                    grabBox.Offset(0, -player.spriteHeight/2);
+                }
+                else if(player.currentDirection == 1)
+                {
+                    grabBox.Offset(-player.spriteWidth/2, 0);
+                }
+                else if(player.currentDirection == 2)
+                {
+                    grabBox.Offset(0,player.spriteHeight/2);
+                }
+                else if(player.currentDirection == 3)
+                {
+                    grabBox.Offset(player.spriteWidth/2, 0);
+                }
+
+                foreach (GameObject thing in objects)
+                {
+                    Rectangle thingBox = new Rectangle(thing.position.ToPoint(), new Point((int)(thing.texture.Width * thing.scale), (int)(thing.texture.Height*thing.scale)));
+                    if (thingBox.Intersects(grabBox))
+                    {
+                        thing.scale = 0;
+                    }
+                }
             }
         }
         public override void LoadContent(GameWindow window){
