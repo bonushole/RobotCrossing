@@ -15,7 +15,7 @@ namespace RobotCrossing
         int frameDuration = 50;
         int frameTotalTime = 0;
         int currentFrame = 0;
-        public int currentState = 2;
+        int currentState = 2;
         public int currentDirection = 0;
         int[] currentStateImageCount = {7,8,9,6,13,6};
         bool animating = false;
@@ -28,7 +28,7 @@ namespace RobotCrossing
 
         Action pickUp;
 
-        List<GameObject> inventory = new List<GameObject>();
+        public List<GameObject> inventory = new List<GameObject>();
 
         public Player(GameWindow window, Action pickUp)
         {
@@ -104,6 +104,8 @@ namespace RobotCrossing
         }
         public void addItem(GameObject item)
         {
+            item.position.Y = 20;
+            item.position.X = 10 + ((item.texture.Width*item.scale) * inventory.Count());
             inventory.Add(item);
         }
         public void Draw(SpriteBatch spriteBatch)

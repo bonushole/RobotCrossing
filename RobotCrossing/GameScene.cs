@@ -13,7 +13,7 @@ namespace RobotCrossing
     {
         Player player;
         double lastspawn = 0;
-        double spawnperiod=5;
+        double spawnperiod=1;
         Random rnd = new Random();
         List<GameObject> objects = new List<GameObject>();
 
@@ -63,9 +63,7 @@ namespace RobotCrossing
                     if (thingBox.Intersects(grabBox))
                     {
                         player.addItem(thing);
-                        //objects.Remove(thing);
-                        thing.scale = 0;
-                        return;
+                        objects.Remove(thing);
                         break;
                     }
                 }
@@ -92,6 +90,9 @@ namespace RobotCrossing
                 spriteBatch.Begin();
 
                 spriteBatch.Draw(TextureManager.getTexture2D("square"), destinationRectangle: new Rectangle(10,10, window.ClientBounds.Width-20, window.ClientBounds.Height-20));
+                foreach (GameObject item in player.inventory) {
+                    item.Draw(spriteBatch);
+                }
 
                 spriteBatch.End();
             }
