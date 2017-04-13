@@ -23,13 +23,18 @@ namespace RobotCrossing
         public int spriteWidth = 64;
         public int spriteHeight = 64;
 
-        Texture2D texture;
+        public Texture2D texture;
         public Vector2 position;
-        
-        public Player(GameWindow window)
+
+        Action pickUp;
+
+        List<GameObject> inventory = new List<GameObject>();
+
+        public Player(GameWindow window, Action pickUp)
         {
             texture = TextureManager.getTexture2D("player");
              position = new Vector2(window.ClientBounds.Width/2, window.ClientBounds.Height/2);
+            this.pickUp = pickUp;
            // position = new Vector2(90,90);
         }
         public void Update(GameTime gameTime)
@@ -60,6 +65,7 @@ namespace RobotCrossing
             if (currentState == 2) {
                 if (Keyboard.GetState().IsKeyDown(Keys.Space))
                 {
+                    pickUp();
                     currentState = 1;
                     currentFrame = 0;
                     animating = true;
@@ -95,6 +101,10 @@ namespace RobotCrossing
                 }
             }
 
+        }
+        public void addItem(GameObject item)
+        {
+            inventory.Add(item);
         }
         public void Draw(SpriteBatch spriteBatch)
         {

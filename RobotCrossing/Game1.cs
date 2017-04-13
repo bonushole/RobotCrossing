@@ -48,7 +48,9 @@ namespace RobotCrossing
             Content.Load<Texture2D>("player");
             Content.Load<Texture2D>("cursor");
             Content.Load<Texture2D>("rock");
+            Content.Load<Texture2D>("square");
             Content.Load<SpriteFont>("spriteFont");
+            
             //player = new Player();
             titleScene.LoadContent(Window);
             // TODO: use this.Content to load your game content here

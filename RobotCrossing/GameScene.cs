@@ -1,5 +1,6 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using Microsoft.Xna.Framework.Input;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -15,6 +16,9 @@ namespace RobotCrossing
         double spawnperiod=5;
         Random rnd = new Random();
         List<GameObject> objects = new List<GameObject>();
+
+        bool displayingInventory;
+
         public override void Update(GameTime gameTime){
             player.Update(gameTime);
 
@@ -23,38 +27,52 @@ namespace RobotCrossing
                 objects.Add(new GameObject(TextureManager.getTexture2D("rock"), new Vector2(rnd.Next(1000), rnd.Next(1000)), (float).1));
                 lastspawn = gameTime.TotalGameTime.TotalSeconds;
             }
-            if(player.currentState == 1)
+            if (Keyboard.GetState().IsKeyDown(Keys.I))
             {
+                displayingInventory = true;
+            }
+            else
+            {
+                displayingInventory = false;
+            }
+           
+        }
+        public void PickUp()
+        {
                 Rectangle grabBox = new Rectangle(player.position.ToPoint(), new Point(player.spriteWidth, player.spriteHeight));
-                if(player.currentDirection == 0)
+                if (player.currentDirection == 0)
                 {
-                    grabBox.Offset(0, -player.spriteHeight/2);
+                    grabBox.Offset(0, -player.spriteHeight / 2);
                 }
-                else if(player.currentDirection == 1)
+                else if (player.currentDirection == 1)
                 {
-                    grabBox.Offset(-player.spriteWidth/2, 0);
+                    grabBox.Offset(-player.spriteWidth / 2, 0);
                 }
-                else if(player.currentDirection == 2)
+                else if (player.currentDirection == 2)
                 {
-                    grabBox.Offset(0,player.spriteHeight/2);
+                    grabBox.Offset(0, player.spriteHeight / 2);
                 }
-                else if(player.currentDirection == 3)
+                else if (player.currentDirection == 3)
                 {
-                    grabBox.Offset(player.spriteWidth/2, 0);
+                    grabBox.Offset(player.spriteWidth / 2, 0);
                 }
 
                 foreach (GameObject thing in objects)
                 {
-                    Rectangle thingBox = new Rectangle(thing.position.ToPoint(), new Point((int)(thing.texture.Width * thing.scale), (int)(thing.texture.Height*thing.scale)));
+                    Rectangle thingBox = new Rectangle(thing.position.ToPoint(), new Point((int)(thing.texture.Width * thing.scale), (int)(thing.texture.Height * thing.scale)));
                     if (thingBox.Intersects(grabBox))
                     {
+                        player.addItem(thing);
+                        //objects.Remove(thing);
                         thing.scale = 0;
+                        return;
+                        break;
                     }
                 }
-            }
+
         }
         public override void LoadContent(GameWindow window){
-            player = new Player(window);
+            player = new Player(window, PickUp);
            // player.Player(window);
             
             }
@@ -62,13 +80,21 @@ namespace RobotCrossing
         {
             spriteBatch.Begin(transformMatrix:
               Matrix.CreateTranslation(
-                  new Vector3((player.position.X * -1) + window.ClientBounds.Width / 2, (player.position.Y * -1) + window.ClientBounds.Height / 2, 0)));
+                  new Vector3(((player.position.X * -1) - (player.spriteWidth / 2)) + window.ClientBounds.Width / 2, ((player.position.Y * -1) - player.spriteHeight) + window.ClientBounds.Height / 2, 0)));
             foreach (GameObject obj in objects)
             {
                 obj.Draw(spriteBatch);
             }
             player.Draw(spriteBatch);
             spriteBatch.End();
+            if (displayingInventory)
+            {
+                spriteBatch.Begin();
+
+                spriteBatch.Draw(TextureManager.getTexture2D("square"), destinationRectangle: new Rectangle(10,10, window.ClientBounds.Width-20, window.ClientBounds.Height-20));
+
+                spriteBatch.End();
+            }
         }
     }
 }
