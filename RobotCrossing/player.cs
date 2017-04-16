@@ -28,7 +28,7 @@ namespace RobotCrossing
 
         Action pickUp;
 
-        public List<GameObject> inventory = new List<GameObject>();
+        public GameObject[,] inventory = new GameObject[5,10];
 
         public Player(GameWindow window, Action pickUp)
         {
@@ -102,11 +102,32 @@ namespace RobotCrossing
             }
 
         }
-        public void addItem(GameObject item)
+        public bool AddItem(GameObject item)
         {
-            item.position.Y = 20;
-            item.position.X = 10 + ((item.texture.Width*item.scale) * inventory.Count());
-            inventory.Add(item);
+            for (int i = 0; i < inventory.GetLength(0); i++)
+            {
+                for (int j = 0; j < inventory.GetLength(1); j++)
+                {
+                    if (inventory[i,j] == null)
+                    {
+                        inventory[i, j] = item;
+                        return true;
+                    }
+                }
+            }
+            return false;
+        }
+        public void DrawInventory(SpriteBatch spriteBatch)
+        {
+            for (int i = 0; i < inventory.GetLength(0); i++)
+            {
+                for (int j = 0; j < inventory.GetLength(1); j++)
+                {
+                    if (inventory[i,j]!=null) {
+                        spriteBatch.Draw(inventory[i, j].texture, destinationRectangle: new Rectangle(20 + (40 * j), 20 + (20 * i), 40, 20));
+                    }
+                }
+            }
         }
         public void Draw(SpriteBatch spriteBatch)
         {

@@ -62,8 +62,10 @@ namespace RobotCrossing
                     Rectangle thingBox = new Rectangle(thing.position.ToPoint(), new Point((int)(thing.texture.Width * thing.scale), (int)(thing.texture.Height * thing.scale)));
                     if (thingBox.Intersects(grabBox))
                     {
-                        player.addItem(thing);
+                    if (player.AddItem(thing))
+                    {
                         objects.Remove(thing);
+                    }
                         break;
                     }
                 }
@@ -90,9 +92,7 @@ namespace RobotCrossing
                 spriteBatch.Begin();
 
                 spriteBatch.Draw(TextureManager.getTexture2D("square"), destinationRectangle: new Rectangle(10,10, window.ClientBounds.Width-20, window.ClientBounds.Height-20));
-                foreach (GameObject item in player.inventory) {
-                    item.Draw(spriteBatch);
-                }
+                player.DrawInventory(spriteBatch);
 
                 spriteBatch.End();
             }
