@@ -28,14 +28,24 @@ namespace RobotCrossing
 
         Action pickUp;
 
-        public GameObject[,] inventory = new GameObject[5,10];
+        public InventorySlot[,] inventory = new InventorySlot[5,10];
 
         public Player(GameWindow window, Action pickUp)
         {
             texture = TextureManager.getTexture2D("player");
              position = new Vector2(window.ClientBounds.Width/2, window.ClientBounds.Height/2);
             this.pickUp = pickUp;
-           // position = new Vector2(90,90);
+
+            for (int i = 0; i < inventory.GetLength(0); i++)
+            {
+                for (int j = 0; j < inventory.GetLength(1); j++)
+                {
+                    inventory[i, j] = new InventorySlot();
+                    inventory[i,j].rectangle=new Rectangle(20 + (60 * j), 20 + (30 * i), 60, 30);
+                }
+            }
+
+            // position = new Vector2(90,90);
         }
         public void Update(GameTime gameTime)
         {
@@ -104,28 +114,43 @@ namespace RobotCrossing
         }
         public bool AddItem(GameObject item)
         {
-            for (int i = 0; i < inventory.GetLength(0); i++)
+            //for (int i = 0; i < inventory.GetLength(0); i++)
+            //{
+            //    for (int j = 0; j < inventory.GetLength(1); j++)
+            //    {
+            //        if (inventory[i, j] == null)
+            //        {
+            //            inventory[i, j].item = item;
+            //            return true;
+            //        }
+            //    }
+            //}
+            foreach (InventorySlot slot in inventory)
             {
-                for (int j = 0; j < inventory.GetLength(1); j++)
+                if (slot.item ==null)
                 {
-                    if (inventory[i,j] == null)
-                    {
-                        inventory[i, j] = item;
-                        return true;
-                    }
+                    slot.item = item;
+                    return true;
                 }
             }
             return false;
         }
         public void DrawInventory(SpriteBatch spriteBatch)
         {
-            for (int i = 0; i < inventory.GetLength(0); i++)
+            //for (int i = 0; i < inventory.GetLength(0); i++)
+            //{
+            //    for (int j = 0; j < inventory.GetLength(1); j++)
+            //    {
+            //        if (inventory[i,j]!=null) {
+            //            spriteBatch.Draw(inventory[i, j].item.texture, destinationRectangle: new Rectangle(20 + (40 * j), 20 + (20 * i), 40, 20));
+            //        }
+            //    }
+            //}
+            foreach(InventorySlot slot in inventory)
             {
-                for (int j = 0; j < inventory.GetLength(1); j++)
+                if(slot.item != null)
                 {
-                    if (inventory[i,j]!=null) {
-                        spriteBatch.Draw(inventory[i, j].texture, destinationRectangle: new Rectangle(20 + (40 * j), 20 + (20 * i), 40, 20));
-                    }
+                    spriteBatch.Draw(slot.item.texture, destinationRectangle: slot.rectangle);
                 }
             }
         }

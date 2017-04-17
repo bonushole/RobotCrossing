@@ -41,6 +41,7 @@
     <Compile Include="Game1.cs" />
     <Compile Include="GameObject.cs" />
     <Compile Include="GameScene.cs" />
+    <Compile Include="InventorySlot.cs" />
     <Compile Include="Scene.cs" />
     <Compile Include="Player.cs" />
     <Compile Include="Program.cs" />
