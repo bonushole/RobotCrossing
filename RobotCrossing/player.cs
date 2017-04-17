@@ -41,7 +41,7 @@ namespace RobotCrossing
                 for (int j = 0; j < inventory.GetLength(1); j++)
                 {
                     inventory[i, j] = new InventorySlot();
-                    inventory[i,j].rectangle=new Rectangle(20 + (60 * j), 20 + (30 * i), 60, 30);
+                    inventory[i,j].rectangle=new Rectangle(20 + (65 * j), 20 + (50 * i), 60, 30);
                 }
             }
 
@@ -148,6 +148,10 @@ namespace RobotCrossing
             //}
             foreach(InventorySlot slot in inventory)
             {
+                if (slot.selected)
+                {
+                    spriteBatch.Draw(slot.selectionBox, destinationRectangle: slot.rectangle, color: Color.Yellow);
+                }
                 if(slot.item != null)
                 {
                     spriteBatch.Draw(slot.item.texture, destinationRectangle: slot.rectangle);

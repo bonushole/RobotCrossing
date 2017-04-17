@@ -17,7 +17,11 @@ namespace RobotCrossing
         Random rnd = new Random();
         List<GameObject> objects = new List<GameObject>();
 
-        bool displayingInventory;
+        bool displayingInventory = false;
+        bool buttonReleased = true;
+
+        Texture2D cursor;
+        Vector2 cursorOffset;
 
         public override void Update(GameTime gameTime){
             player.Update(gameTime);
@@ -27,14 +31,29 @@ namespace RobotCrossing
                 objects.Add(new GameObject(TextureManager.getTexture2D("rock"), new Vector2(rnd.Next(1000), rnd.Next(1000)), (float).1));
                 lastspawn = gameTime.TotalGameTime.TotalSeconds;
             }
+            if (Mouse.GetState().LeftButton == ButtonState.Pressed) {
+                foreach (InventorySlot slot in player.inventory)
+                {
+                    if (slot.rectangle.Contains(Mouse.GetState().Position.ToVector2()))
+                    {
+                        slot.selected = true;
+                    }
+                }
+            }
+
             if (Keyboard.GetState().IsKeyDown(Keys.I))
             {
-                displayingInventory = true;
+                if (buttonReleased == true)
+                {
+                    displayingInventory = !displayingInventory;
+                }
+                buttonReleased = false;
             }
             else
             {
-                displayingInventory = false;
+                buttonReleased = true;
             }
+            
            
         }
         public void PickUp()
@@ -73,6 +92,8 @@ namespace RobotCrossing
         }
         public override void LoadContent(GameWindow window){
             player = new Player(window, PickUp);
+            cursor = TextureManager.getTexture2D("cursor");
+            cursorOffset = new Vector2(16, 16);
            // player.Player(window);
             
             }
@@ -93,6 +114,7 @@ namespace RobotCrossing
 
                 spriteBatch.Draw(TextureManager.getTexture2D("square"), destinationRectangle: new Rectangle(10,10, window.ClientBounds.Width-20, window.ClientBounds.Height-20));
                 player.DrawInventory(spriteBatch);
+                spriteBatch.Draw(cursor, Mouse.GetState().Position.ToVector2() - cursorOffset, scale: new Vector2((float)0.1, (float)0.1));
 
                 spriteBatch.End();
             }
