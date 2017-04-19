@@ -19,6 +19,7 @@ namespace RobotCrossing
 
         bool displayingInventory = false;
         bool buttonReleased = true;
+        bool clickReleased = true;
 
         Texture2D cursor;
         Vector2 cursorOffset;
@@ -32,13 +33,21 @@ namespace RobotCrossing
                 lastspawn = gameTime.TotalGameTime.TotalSeconds;
             }
             if (Mouse.GetState().LeftButton == ButtonState.Pressed) {
-                foreach (InventorySlot slot in player.inventory)
+                if (clickReleased)
                 {
-                    if (slot.rectangle.Contains(Mouse.GetState().Position.ToVector2()))
+                    clickReleased = false;
+                    foreach (InventorySlot slot in player.inventory)
                     {
-                        slot.selected = true;
+                        if (slot.rectangle.Contains(Mouse.GetState().Position.ToVector2()))
+                        {
+                            slot.selected = !slot.selected;
+                        }
                     }
                 }
+            }
+            else
+            {
+                clickReleased = true;
             }
 
             if (Keyboard.GetState().IsKeyDown(Keys.I))
