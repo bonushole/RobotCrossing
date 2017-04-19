@@ -28,7 +28,14 @@ namespace RobotCrossing
         {
             if (Keyboard.GetState().IsKeyDown(Keys.Enter))
             {
-
+                foreach(InventorySlot slot in player.inventory)
+                {
+                    if (slot.selected)
+                    {
+                        slot.item = null;
+                        interacting = false;
+                    }
+                }
             }
             if (Keyboard.GetState().IsKeyDown(Keys.OemTilde))
             {

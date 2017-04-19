@@ -31,7 +31,11 @@ namespace RobotCrossing
         public override void Update(GameTime gameTime){
 
             if (shop.interacting) {
-                shop.Update();
+                shop.Update(player);
+                if (!shop.interacting)
+                {
+                    displayingInventory = false;
+                }
             }
             else
             {
@@ -87,6 +91,11 @@ namespace RobotCrossing
                 {
                     if (buttonReleased == true)
                     {
+                        foreach (InventorySlot slot in player.inventory) {
+
+                            slot.selected = false;
+
+                        }
                         displayingInventory = !displayingInventory;
                     }
                     buttonReleased = false;
