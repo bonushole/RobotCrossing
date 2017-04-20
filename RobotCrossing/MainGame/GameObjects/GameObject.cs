@@ -14,10 +14,9 @@ namespace RobotCrossing
         public Texture2D texture;
         public float scale;
         
-        public GameObject(Texture2D texture, Vector2 position, float scale = 1 )
+        public GameObject(Vector2 position, float scale = 1 )
         {
             this.position = position;
-            this.texture = texture;
             this.scale = scale;
         }
 

@@ -9,16 +9,13 @@ using System.Threading.Tasks;
 
 namespace RobotCrossing
 {
-    class Shop
+    class Shop : GameObject
     {
-        Vector2 position;
         public Rectangle range;
-        Texture2D texture;
         public bool interacting;
 
-        public Shop(Vector2 position)
+        public Shop(Vector2 position, float scale =1) : base(position, scale)
         {
-            this.position = position;
             texture = TextureManager.getTexture2D("square");
             range = new Rectangle((int)position.X -30, (int)position.Y - 30, texture.Width + 60, texture.Height + 60);
         
@@ -42,11 +39,6 @@ namespace RobotCrossing
                 interacting = false;
             }
 
-        }
-        public void Draw(SpriteBatch spriteBatch)
-        {
-            //spriteBatch.Draw(TextureManager.getTexture2D("square"), destinationRectangle: range, color: Color.Black);
-            spriteBatch.Draw(texture, position);
         }
     }
 }
