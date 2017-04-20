@@ -16,7 +16,7 @@ namespace RobotCrossing
         Player player;
         Shop shop;
 
-        Tile tile;
+        Tile currentTile;
         Tile[,] tiles = new Tile[3,3];
 
         bool displayingInventory = false;
@@ -42,6 +42,16 @@ namespace RobotCrossing
             {
                 player.Update(gameTime);
             }
+
+            foreach (Tile tile in tiles)
+            {
+                Rectangle tileRect = new Rectangle(tile.position.ToPoint(), tile.size.ToPoint());
+                if (tileRect.Contains(player.position))
+                {
+                    currentTile = tile;
+                }
+            }
+            currentTile.Update(gameTime);
 
             OpenInventory();
 
@@ -109,13 +119,12 @@ namespace RobotCrossing
             cursor = TextureManager.getTexture2D("cursor");
             cursorOffset = new Vector2(16, 16);
             shop = new Shop(new Vector2(0, 0));
-            tile = new CenterTile();
 
             for(int i = 0; i < tiles.GetLength(1); i++)
             {
                 for(int j = 0; j < tiles.GetLength(0); j++)
                 {
-                    if ((i ==(tiles.GetLength(0)/2)+1) && (j == (tiles.GetLength(0)/2)+1))
+                    if ((i ==tiles.GetLength(0)/2) && (j == tiles.GetLength(0)/2))
                     {
                         tiles[i, j] = new CenterTile();
                     }
@@ -128,7 +137,7 @@ namespace RobotCrossing
                         tiles[i, j] = new RockFarm();
                     }
                     tiles[i, j].LoadContent(window);
-                    tiles[i, j].position = new Vector2(tiles[i,j].size.X * ((tiles.GetLength(0)/2 +1) - j) , tiles[i,j].size.Y*(tiles.GetLength(1) / 2 + 1) - i);
+                    tiles[i, j].position = new Vector2(tiles[i,j].size.X * (j - (tiles.GetLength(0)/2)) , tiles[i,j].size.Y*(i - (tiles.GetLength(1) / 2)));
 
                 }
             }
@@ -138,7 +147,7 @@ namespace RobotCrossing
             }
         public void PickUp()
         {
-            tile.PickUp(player);
+            currentTile.PickUp(player);
         }
         public override void Draw(SpriteBatch spriteBatch, GameWindow window)
         {

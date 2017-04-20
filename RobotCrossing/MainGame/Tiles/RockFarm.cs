@@ -28,7 +28,7 @@ namespace RobotCrossing.MainGame.Tiles
         {
             if (gameTime.TotalGameTime.TotalSeconds >= (lastspawn + spawnperiod))
             {
-                objects.Add(new Rock(new Vector2(rnd.Next(1000), rnd.Next(1000)), (float).1));
+                objects.Add(new Rock(new Vector2(rnd.Next((int)position.X, (int)(position.X + size.X)), rnd.Next((int)position.Y, (int)(position.Y + size.Y))), (float).1));
                 lastspawn = gameTime.TotalGameTime.TotalSeconds;
             }
         }
