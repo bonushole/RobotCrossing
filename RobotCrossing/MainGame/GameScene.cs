@@ -17,7 +17,8 @@ namespace RobotCrossing
         Shop shop;
 
         Tile currentTile;
-        Tile[,] tiles = new Tile[3,3];
+        Tile[,] nearbyTiles = new Tile[3, 3];
+        Tile[,] tiles = new Tile[3, 3];
 
         bool displayingInventory = false;
         bool buttonReleased = true;
@@ -29,7 +30,7 @@ namespace RobotCrossing
         Texture2D cursor;
         Vector2 cursorOffset;
 
-        public override void Update(GameTime gameTime){
+        public override void Update(GameTime gameTime) {
 
             if (shop.interacting) {
                 shop.Update(player);
@@ -49,6 +50,18 @@ namespace RobotCrossing
                 if (tileRect.Contains(player.position))
                 {
                     currentTile = tile;
+                }
+            }
+            for (int i = 0; i < tiles.GetLength(1); i++)
+            {
+                for (int j = 0; j < tiles.GetLength(0); j++)
+                {
+                    Rectangle tileRect = new Rectangle(tiles[i, j].position.ToPoint(), tiles[i, j].size.ToPoint());
+                    if (tileRect.Contains(player.position))
+                    {
+                        currentTile = tiles[i, j];
+                        //FindNearbyTiles(i, j);
+                    }
                 }
             }
             currentTile.Update(gameTime);
@@ -73,9 +86,28 @@ namespace RobotCrossing
                 clickReleased = true;
             }
 
-            
-           
+
+
         }
+        //public void FindNearbyTiles(int i, int j)
+        //{
+        //    for (int a = 0; a < nearbyTiles.GetLength(1); a++)
+        //    {
+        //        for (int b = 0; b < nearbyTiles.GetLength(0); b++)
+        //        {
+        //            int c = i - (1 + a);
+        //            int d = j - (1 + b);
+        //            if ((c>=0 && c<tiles.GetLength(0)) && (d>=0 && d<tiles.GetLength(1)))
+        //            {
+        //                nearbyTiles[a, b] = tiles[c, d];
+        //            }
+        //            else
+        //            {
+        //                nearbyTiles[a, b] = null;
+        //            }
+        //        }
+        //    }
+        //}
         public void OpenInventory()
         {
             if (shop.range.Intersects(new Rectangle((int)player.position.X, (int)player.position.Y, player.texture.Width, player.texture.Height)))
@@ -120,9 +152,9 @@ namespace RobotCrossing
             cursorOffset = new Vector2(16, 16);
             shop = new Shop(new Vector2(0, 0));
 
-            for(int i = 0; i < tiles.GetLength(1); i++)
+            for(int i = 0; i < tiles.GetLength(0); i++)
             {
-                for(int j = 0; j < tiles.GetLength(0); j++)
+                for(int j = 0; j < tiles.GetLength(1); j++)
                 {
                     if ((i ==tiles.GetLength(0)/2) && (j == tiles.GetLength(0)/2))
                     {
@@ -141,7 +173,7 @@ namespace RobotCrossing
 
                 }
             }
-
+            currentTile = tiles[1, 1];
            // player.Player(window);
             
             }
@@ -157,11 +189,12 @@ namespace RobotCrossing
 
             foreach (Tile tile in tiles)
             {
-                tile.Draw(spriteBatch);
+                if (tile != null) {
+                    tile.Draw(spriteBatch);
+                }
             }
 
             player.Draw(spriteBatch);
-            shop.Draw(spriteBatch);
             spriteBatch.End();
             spriteBatch.Begin();
             if (canInteract)

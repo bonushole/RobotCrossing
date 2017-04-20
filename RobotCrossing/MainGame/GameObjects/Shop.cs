@@ -1,6 +1,7 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
+using RobotCrossing.MainGame.GameObjects;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace RobotCrossing
 {
-    class Shop : GameObject
+    class Shop : InteractiveObjects
     {
         public Rectangle range;
         public bool interacting;

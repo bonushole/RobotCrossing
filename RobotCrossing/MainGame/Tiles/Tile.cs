@@ -16,6 +16,10 @@ namespace RobotCrossing
         public Vector2 size = new Vector2(1000, 1000);
 
         public List<GameObject> objects;
+        public List<GameObject> interactiveObjects;
+
+        public bool canInteract;
+        public bool interacting;
 
         public abstract void LoadContent(GameWindow window);
         public abstract void Update(GameTime gameTime);
@@ -31,6 +35,14 @@ namespace RobotCrossing
                     thing.Draw(spriteBatch);
                 }
             }
+            if (interactiveObjects != null)
+            {
+                foreach (GameObject thing in interactiveObjects)
+                {
+                    thing.Draw(spriteBatch);
+                }
+            }
+            
         }
         public void PickUp(Player player)
         {
