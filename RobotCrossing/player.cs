@@ -41,7 +41,7 @@ namespace RobotCrossing
                 for (int j = 0; j < inventory.GetLength(1); j++)
                 {
                     inventory[i, j] = new InventorySlot();
-                    inventory[i,j].rectangle=new Rectangle(20 + (j*((window.ClientBounds.Width-20)/inventory.GetLength(1))), 20 + (i * ((window.ClientBounds.Height - 20) / inventory.GetLength(0))), 60, 30);
+                    inventory[i,j].rectangle=new Rectangle(20 + (j*((window.ClientBounds.Width-40)/inventory.GetLength(1))), 20 + (i * ((window.ClientBounds.Height - 40) / inventory.GetLength(0))), ((window.ClientBounds.Width-20)/inventory.GetLength(1)) -10, ((window.ClientBounds.Height-20)/inventory.GetLength(0))-10);
                 }
             }
 
