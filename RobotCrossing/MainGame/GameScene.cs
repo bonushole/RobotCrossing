@@ -111,7 +111,28 @@ namespace RobotCrossing
             shop = new Shop(new Vector2(0, 0));
             tile = new CenterTile();
 
-            tile.LoadContent(window);
+            for(int i = 0; i < tiles.GetLength(1); i++)
+            {
+                for(int j = 0; j < tiles.GetLength(0); j++)
+                {
+                    if ((i ==(tiles.GetLength(0)/2)+1) && (j == (tiles.GetLength(0)/2)+1))
+                    {
+                        tiles[i, j] = new CenterTile();
+                    }
+                    else if (j % 2 == i % 2)
+                    {
+                        tiles[i, j] = new EmptyTile();
+                    }
+                    else
+                    {
+                        tiles[i, j] = new RockFarm();
+                    }
+                    tiles[i, j].LoadContent(window);
+                    tiles[i, j].position = new Vector2(tiles[i,j].size.X * ((tiles.GetLength(0)/2 +1) - j) , tiles[i,j].size.Y*(tiles.GetLength(1) / 2 + 1) - i);
+
+                }
+            }
+
            // player.Player(window);
             
             }
@@ -125,7 +146,10 @@ namespace RobotCrossing
               Matrix.CreateTranslation(
                   new Vector3(((player.position.X * -1) - (player.spriteWidth / 2)) + window.ClientBounds.Width / 2, ((player.position.Y * -1) - player.spriteHeight) + window.ClientBounds.Height / 2, 0)));
 
-            tile.Draw(spriteBatch);
+            foreach (Tile tile in tiles)
+            {
+                tile.Draw(spriteBatch);
+            }
 
             player.Draw(spriteBatch);
             shop.Draw(spriteBatch);

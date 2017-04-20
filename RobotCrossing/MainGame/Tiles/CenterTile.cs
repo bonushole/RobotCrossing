@@ -13,7 +13,7 @@ namespace RobotCrossing.MainGame.Tiles
         {
             backgroundTexture = TextureManager.getTexture2D("square");
             position = new Vector2(0,0);
-            color = Color.White;
+            color = Color.Red;
            
         }
         public override void Update(GameTime gameTime)
