@@ -10,11 +10,8 @@ using System.Threading.Tasks;
 
 namespace RobotCrossing
 {
-    class Shop : InteractiveObjects
+    class Shop : InteractiveObject
     {
-        public Rectangle range;
-        public bool interacting;
-
         public Shop(Vector2 position, float scale =1) : base(position, scale)
         {
             texture = TextureManager.getTexture2D("square");
@@ -22,7 +19,7 @@ namespace RobotCrossing
         
         }
 
-        public void Update(Player player)
+        public override void Update(Player player)
         {
             if (Keyboard.GetState().IsKeyDown(Keys.Enter))
             {

@@ -1,5 +1,6 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using RobotCrossing.MainGame.GameObjects;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -16,13 +17,26 @@ namespace RobotCrossing
         public Vector2 size = new Vector2(1000, 1000);
 
         public List<GameObject> objects;
-        public List<GameObject> interactiveObjects;
+        public List<InteractiveObject> interactiveObjects;
 
         public bool canInteract;
         public bool interacting;
 
         public abstract void LoadContent(GameWindow window);
-        public abstract void Update(GameTime gameTime);
+        public abstract void Update(GameTime gameTime, Player player);
+
+        public void masterUpdate(GameTime gameTime, Player player)
+        {
+            Update(gameTime, player);
+            canInteract = false;
+            foreach (InteractiveObject thing in interactiveObjects) {
+                if (thing.range.Intersects(new Rectangle(player.position.ToPoint(), new Point(player.texture.Width, player.texture.Height))))
+                {
+                    thing.Update(player);
+                    canInteract = true;
+                }
+            }
+        }
 
         public void Draw(SpriteBatch spriteBatch)
         {

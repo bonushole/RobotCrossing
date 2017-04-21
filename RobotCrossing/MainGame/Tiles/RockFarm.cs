@@ -24,7 +24,7 @@ namespace RobotCrossing.MainGame.Tiles
             color = Color.Black;
 
         }
-        public override void Update(GameTime gameTime)
+        public override void Update(GameTime gameTime, Player player)
         {
             if (gameTime.TotalGameTime.TotalSeconds >= (lastspawn + spawnperiod))
             {

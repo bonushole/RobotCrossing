@@ -39,10 +39,8 @@ namespace RobotCrossing
                     displayingInventory = false;
                 }
             }
-            else
-            {
-                player.Update(gameTime);
-            }
+            player.Update(gameTime);
+            
 
             foreach (Tile tile in tiles)
             {
@@ -64,7 +62,7 @@ namespace RobotCrossing
                     }
                 }
             }
-            currentTile.Update(gameTime);
+            currentTile.Update(gameTime, player);
 
             OpenInventory();
 
@@ -197,7 +195,7 @@ namespace RobotCrossing
             player.Draw(spriteBatch);
             spriteBatch.End();
             spriteBatch.Begin();
-            if (canInteract)
+            if (currentTile.canInteract)
             {
                 spriteBatch.Draw(TextureManager.getTexture2D("square"), destinationRectangle: new Rectangle(0, window.ClientBounds.Height - 80, window.ClientBounds.Width, 80));
                 spriteBatch.DrawString(TextureManager.getSpriteFont("spriteFont"),"press H to interact", new Vector2(0, window.ClientBounds.Height-70), Color.Black);

@@ -15,7 +15,7 @@ namespace RobotCrossing.MainGame.Tiles
             backgroundTexture = TextureManager.getTexture2D("square");
         }
 
-        public override void Update(GameTime gameTime)
+        public override void Update(GameTime gameTime, Player player)
         {
             
         }
