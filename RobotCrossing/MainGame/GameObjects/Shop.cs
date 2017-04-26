@@ -21,12 +21,16 @@ namespace RobotCrossing
 
         public override void Update(Player player)
         {
+            interacting = true;
+
             if (Keyboard.GetState().IsKeyDown(Keys.Enter))
             {
                 foreach(InventorySlot slot in player.inventory)
                 {
                     if (slot.selected)
                     {
+                        player.money += 10;
+
                         slot.item = null;
                         interacting = false;
                     }

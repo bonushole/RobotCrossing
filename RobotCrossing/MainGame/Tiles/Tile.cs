@@ -29,17 +29,32 @@ namespace RobotCrossing
         {
             Update(gameTime, player);
             canInteract = false;
+            interacting = false;
 
             if (interactiveObjects != null)
             {
-
                 foreach (InteractiveObject thing in interactiveObjects)
                 {
+                    if (thing.interacting)
+                    {
+                        interacting = true;
+                    }
                     if (thing.range.Intersects(new Rectangle(player.position.ToPoint(), new Point(player.texture.Width, player.texture.Height))))
                     {
-                        thing.Update(player);
                         canInteract = true;
                     }
+                }
+            }
+        }
+
+        public void ObjectInteract(Player player)
+        {
+            foreach (InteractiveObject thing in interactiveObjects)
+            {
+                if (thing.range.Intersects(new Rectangle(player.position.ToPoint(), new Point(player.texture.Width, player.texture.Height))))
+                {
+                    interacting = true;
+                    thing.Update(player);
                 }
             }
         }

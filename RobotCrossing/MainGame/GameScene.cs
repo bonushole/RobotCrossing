@@ -14,7 +14,6 @@ namespace RobotCrossing
     class GameScene : Scene
     {
         Player player;
-        Shop shop;
 
         Tile currentTile;
         Tile[,] nearbyTiles = new Tile[3, 3];
@@ -25,19 +24,18 @@ namespace RobotCrossing
 
         bool clickReleased = true;
 
-        bool canInteract = false;
-
         Texture2D cursor;
         Vector2 cursorOffset;
 
         public override void Update(GameTime gameTime) {
 
-            if (shop.interacting) {
-                shop.Update(player);
-                if (!shop.interacting)
-                {
-                    displayingInventory = false;
-                }
+            if (currentTile.interacting) {
+                currentTile.ObjectInteract(player);
+                
+            }
+            else
+            {
+                //displayingInventory = false;
             }
             player.Update(gameTime);
             
@@ -108,20 +106,17 @@ namespace RobotCrossing
         //}
         public void OpenInventory()
         {
-            if (shop.range.Intersects(new Rectangle((int)player.position.X, (int)player.position.Y, player.texture.Width, player.texture.Height)))
+            if (currentTile.canInteract)
             {
-                canInteract = true;
                 if (Keyboard.GetState().IsKeyDown(Keys.H))
                 {
-                    shop.interacting = true;
+                    // shop.interacting = true;
+                    currentTile.interacting = true;
                     displayingInventory = true;
                 }
             }
-            else
-            {
-                canInteract = false;
-            }
-            if (!shop.interacting)
+
+            if (!currentTile.interacting)
             {
                 if (Keyboard.GetState().IsKeyDown(Keys.I))
                 {
@@ -148,7 +143,6 @@ namespace RobotCrossing
             player = new Player(window, PickUp);
             cursor = TextureManager.getTexture2D("cursor");
             cursorOffset = new Vector2(16, 16);
-            shop = new Shop(new Vector2(0, 0));
 
             for(int i = 0; i < tiles.GetLength(0); i++)
             {
@@ -195,6 +189,10 @@ namespace RobotCrossing
             player.Draw(spriteBatch);
             spriteBatch.End();
             spriteBatch.Begin();
+
+            spriteBatch.Draw(TextureManager.getTexture2D("square"), destinationRectangle: new Rectangle(0,0,100,50));
+            spriteBatch.DrawString(TextureManager.getSpriteFont("spriteFont"),"$" + player.money,new Vector2(0,0), Color.Green);
+
             if (currentTile.canInteract)
             {
                 spriteBatch.Draw(TextureManager.getTexture2D("square"), destinationRectangle: new Rectangle(0, window.ClientBounds.Height - 80, window.ClientBounds.Width, 80));
