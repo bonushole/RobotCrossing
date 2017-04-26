@@ -35,9 +35,10 @@ namespace RobotCrossing
             }
             else
             {
-                //displayingInventory = false;
+                player.Update(gameTime);
+                ManageInventory();
             }
-            player.Update(gameTime);
+            
             
 
             foreach (Tile tile in tiles)
@@ -61,8 +62,6 @@ namespace RobotCrossing
             //    }
             //}
             currentTile.MasterUpdate(gameTime, player);
-
-            OpenInventory();
 
             if (Mouse.GetState().LeftButton == ButtonState.Pressed) {
                 if (clickReleased)
@@ -104,7 +103,7 @@ namespace RobotCrossing
         //        }
         //    }
         //}
-        public void OpenInventory()
+        public void ManageInventory()
         {
             if (currentTile.canInteract)
             {
@@ -112,22 +111,15 @@ namespace RobotCrossing
                 {
                     // shop.interacting = true;
                     currentTile.interacting = true;
-                    displayingInventory = true;
+                    OpenInventory();
                 }
             }
 
-            if (!currentTile.interacting)
-            {
                 if (Keyboard.GetState().IsKeyDown(Keys.I))
                 {
                     if (buttonReleased == true)
                     {
-                        foreach (InventorySlot slot in player.inventory) {
-
-                            slot.selected = false;
-
-                        }
-                        displayingInventory = !displayingInventory;
+                        OpenInventory();
                     }
                     buttonReleased = false;
                 }
@@ -135,10 +127,20 @@ namespace RobotCrossing
                 {
                     buttonReleased = true;
                 }
-            }
 
         }
         
+        public void OpenInventory()
+        {
+            foreach (InventorySlot slot in player.inventory)
+            {
+
+                slot.selected = false;
+
+            }
+            displayingInventory = !displayingInventory;
+        }
+
         public override void LoadContent(GameWindow window){
             player = new Player(window, PickUp);
             cursor = TextureManager.getTexture2D("cursor");
