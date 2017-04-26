@@ -18,7 +18,7 @@ namespace RobotCrossing
 
         Tile currentTile;
         Tile[,] nearbyTiles = new Tile[3, 3];
-        Tile[,] tiles = new Tile[3, 3];
+        Tile[,] tiles = new Tile[11,11];
 
         bool displayingInventory = false;
         bool buttonReleased = true;
@@ -50,19 +50,19 @@ namespace RobotCrossing
                     currentTile = tile;
                 }
             }
-            for (int i = 0; i < tiles.GetLength(1); i++)
-            {
-                for (int j = 0; j < tiles.GetLength(0); j++)
-                {
-                    Rectangle tileRect = new Rectangle(tiles[i, j].position.ToPoint(), tiles[i, j].size.ToPoint());
-                    if (tileRect.Contains(player.position))
-                    {
-                        currentTile = tiles[i, j];
-                        //FindNearbyTiles(i, j);
-                    }
-                }
-            }
-            currentTile.Update(gameTime, player);
+            //for (int i = 0; i < tiles.GetLength(1); i++)
+            //{
+            //    for (int j = 0; j < tiles.GetLength(0); j++)
+            //    {
+            //        Rectangle tileRect = new Rectangle(tiles[i, j].position.ToPoint(), tiles[i, j].size.ToPoint());
+            //        if (tileRect.Contains(player.position))
+            //        {
+            //            currentTile = tiles[i, j];
+            //            //FindNearbyTiles(i, j);
+            //        }
+            //    }
+            //}
+            currentTile.MasterUpdate(gameTime, player);
 
             OpenInventory();
 

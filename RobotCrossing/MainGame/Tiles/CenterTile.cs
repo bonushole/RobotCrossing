@@ -21,13 +21,7 @@ namespace RobotCrossing.MainGame.Tiles
         }
         public override void Update(GameTime gameTime, Player player)
         {
-            foreach(InteractiveObject thing in interactiveObjects)
-            {
-                if (thing.interacting)
-                {
-                    thing.Update(player);
-                }
-            }
+            
         }
     }
 }

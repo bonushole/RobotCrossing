@@ -11,6 +11,8 @@ namespace RobotCrossing.MainGame.Tiles
     {
         public override void LoadContent(GameWindow window)
         {
+
+
             color = Color.White;
             backgroundTexture = TextureManager.getTexture2D("square");
         }

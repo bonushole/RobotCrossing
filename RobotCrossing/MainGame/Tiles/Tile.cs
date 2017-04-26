@@ -25,15 +25,21 @@ namespace RobotCrossing
         public abstract void LoadContent(GameWindow window);
         public abstract void Update(GameTime gameTime, Player player);
 
-        public void masterUpdate(GameTime gameTime, Player player)
+        public void MasterUpdate(GameTime gameTime, Player player)
         {
             Update(gameTime, player);
             canInteract = false;
-            foreach (InteractiveObject thing in interactiveObjects) {
-                if (thing.range.Intersects(new Rectangle(player.position.ToPoint(), new Point(player.texture.Width, player.texture.Height))))
+
+            if (interactiveObjects != null)
+            {
+
+                foreach (InteractiveObject thing in interactiveObjects)
                 {
-                    thing.Update(player);
-                    canInteract = true;
+                    if (thing.range.Intersects(new Rectangle(player.position.ToPoint(), new Point(player.texture.Width, player.texture.Height))))
+                    {
+                        thing.Update(player);
+                        canInteract = true;
+                    }
                 }
             }
         }
