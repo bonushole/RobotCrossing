@@ -29,12 +29,9 @@ namespace RobotCrossing
 
         public override void Update(GameTime gameTime) {
 
-            if (currentTile.interacting) {
-                currentTile.ObjectInteract(player);
-                
-            }
-            else
-            {
+            currentTile.MasterUpdate(gameTime, player, OpenInventory);
+
+            if (!currentTile.interacting) {
                 player.Update(gameTime);
                 ManageInventory();
             }
@@ -61,7 +58,7 @@ namespace RobotCrossing
             //        }
             //    }
             //}
-            currentTile.MasterUpdate(gameTime, player);
+            
 
             if (Mouse.GetState().LeftButton == ButtonState.Pressed) {
                 if (clickReleased)
@@ -109,8 +106,7 @@ namespace RobotCrossing
             {
                 if (Keyboard.GetState().IsKeyDown(Keys.H))
                 {
-                    // shop.interacting = true;
-                    currentTile.interacting = true;
+                    currentTile.ObjectInteract(player, OpenInventory);
                     OpenInventory();
                 }
             }

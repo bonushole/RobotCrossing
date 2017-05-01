@@ -16,7 +16,7 @@ namespace RobotCrossing.MainGame.GameObjects
         {
 
         }
-        public abstract void Update(Player player);
+        public abstract void Update(Player player, Action OpenInventory);
 
     }
 }

@@ -19,7 +19,7 @@ namespace RobotCrossing
         
         }
 
-        public override void Update(Player player)
+        public override void Update(Player player, Action OpenInventory)
         {
             interacting = true;
 
@@ -32,13 +32,15 @@ namespace RobotCrossing
                         player.money += 10;
 
                         slot.item = null;
-                        interacting = false;
                     }
                 }
+                interacting = false;
+                OpenInventory();
             }
             if (Keyboard.GetState().IsKeyDown(Keys.OemTilde))
             {
                 interacting = false;
+                OpenInventory();
             }
 
         }

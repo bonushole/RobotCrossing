@@ -25,19 +25,22 @@ namespace RobotCrossing
         public abstract void LoadContent(GameWindow window);
         public abstract void Update(GameTime gameTime, Player player);
 
-        public void MasterUpdate(GameTime gameTime, Player player)
+        public void MasterUpdate(GameTime gameTime, Player player, Action OpenInventory)
         {
             Update(gameTime, player);
-            canInteract = false;
-            interacting = false;
 
             if (interactiveObjects != null)
             {
+
+                interacting = false;
+                canInteract = false;
+
                 foreach (InteractiveObject thing in interactiveObjects)
                 {
                     if (thing.interacting)
                     {
                         interacting = true;
+                        thing.Update(player, OpenInventory);
                     }
                     if (thing.range.Intersects(new Rectangle(player.position.ToPoint(), new Point(player.texture.Width, player.texture.Height))))
                     {
@@ -47,14 +50,14 @@ namespace RobotCrossing
             }
         }
 
-        public void ObjectInteract(Player player)
+        public void ObjectInteract(Player player, Action OpenInventory)
         {
             foreach (InteractiveObject thing in interactiveObjects)
             {
                 if (thing.range.Intersects(new Rectangle(player.position.ToPoint(), new Point(player.texture.Width, player.texture.Height))))
                 {
                     interacting = true;
-                    thing.Update(player);
+                    thing.Update(player, OpenInventory);
                 }
             }
         }
@@ -99,16 +102,19 @@ namespace RobotCrossing
                 grabBox.Offset(player.spriteWidth / 2, 0);
             }
 
-            foreach (GameObject thing in objects)
-            {
-                Rectangle thingBox = new Rectangle(thing.position.ToPoint(), new Point((int)(thing.texture.Width * thing.scale), (int)(thing.texture.Height * thing.scale)));
-                if (thingBox.Intersects(grabBox))
+            if (objects != null) {
+
+                foreach (GameObject thing in objects)
                 {
-                    if (player.AddItem(thing))
+                    Rectangle thingBox = new Rectangle(thing.position.ToPoint(), new Point((int)(thing.texture.Width * thing.scale), (int)(thing.texture.Height * thing.scale)));
+                    if (thingBox.Intersects(grabBox))
                     {
-                        objects.Remove(thing);
+                        if (player.AddItem(thing))
+                        {
+                            objects.Remove(thing);
+                        }
+                        break;
                     }
-                    break;
                 }
             }
 
