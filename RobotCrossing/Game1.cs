@@ -45,10 +45,14 @@ namespace RobotCrossing
         {
             // Create a new SpriteBatch, which can be used to draw textures.
             spriteBatch = new SpriteBatch(GraphicsDevice);
-            Content.Load<Texture2D>("player");
-            Content.Load<Texture2D>("cursor");
-            Content.Load<Texture2D>("rock");
-            Content.Load<Texture2D>("square");
+            
+            
+            string[] textures = {"player", "cursor", "rock", "square", "bank", "DesertTile", "GrassTile", "DeadTile", "BeachTile"};
+
+            foreach(string texture in textures)
+            {
+                Content.Load<Texture2D>(texture);
+            }
             Content.Load<SpriteFont>("spriteFont");
             
             //player = new Player();

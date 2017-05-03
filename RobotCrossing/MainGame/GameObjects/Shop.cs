@@ -14,7 +14,7 @@ namespace RobotCrossing
     {
         public Shop(Vector2 position, float scale =1) : base(position, scale)
         {
-            texture = TextureManager.getTexture2D("square");
+            texture = TextureManager.getTexture2D("bank");
             range = new Rectangle((int)position.X -30, (int)position.Y - 30, texture.Width + 60, texture.Height + 60);
         
         }

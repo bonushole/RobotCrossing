@@ -29,6 +29,9 @@ namespace RobotCrossing
         Action pickUp;
 
         public InventorySlot[,] inventory = new InventorySlot[5,10];
+        List<InventorySlot> actionItems = new List<InventorySlot>();
+        int currentItem = 0;
+
         public int money = 0;
 
         public Player(GameWindow window, Action pickUp)

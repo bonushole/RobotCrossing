@@ -27,6 +27,8 @@ namespace RobotCrossing
         Texture2D cursor;
         Vector2 cursorOffset;
 
+        Random rnd = new Random();
+
         public override void Update(GameTime gameTime) {
 
             currentTile.MasterUpdate(gameTime, player, OpenInventory);
@@ -35,30 +37,30 @@ namespace RobotCrossing
                 player.Update(gameTime);
                 ManageInventory();
             }
-            
-            
 
-            foreach (Tile tile in tiles)
-            {
-                Rectangle tileRect = new Rectangle(tile.position.ToPoint(), tile.size.ToPoint());
-                if (tileRect.Contains(player.position))
-                {
-                    currentTile = tile;
-                }
-            }
-            //for (int i = 0; i < tiles.GetLength(1); i++)
+
+
+            //foreach (Tile tile in tiles)
             //{
-            //    for (int j = 0; j < tiles.GetLength(0); j++)
+            //    Rectangle tileRect = new Rectangle(tile.position.ToPoint(), tile.size.ToPoint());
+            //    if (tileRect.Contains(player.position))
             //    {
-            //        Rectangle tileRect = new Rectangle(tiles[i, j].position.ToPoint(), tiles[i, j].size.ToPoint());
-            //        if (tileRect.Contains(player.position))
-            //        {
-            //            currentTile = tiles[i, j];
-            //            //FindNearbyTiles(i, j);
-            //        }
+            //        currentTile = tile;
             //    }
             //}
-            
+            for (int i = 0; i < tiles.GetLength(1); i++)
+            {
+                for (int j = 0; j < tiles.GetLength(0); j++)
+                {
+                    Rectangle tilerect = new Rectangle(tiles[i, j].position.ToPoint(), tiles[i, j].size.ToPoint());
+                    if (tilerect.Contains(player.position))
+                    {
+                        currentTile = tiles[i, j];
+                        FindNearbyTiles(i, j);
+                    }
+                }
+            }
+
 
             if (Mouse.GetState().LeftButton == ButtonState.Pressed) {
                 if (clickReleased)
@@ -81,25 +83,26 @@ namespace RobotCrossing
 
 
         }
-        //public void FindNearbyTiles(int i, int j)
-        //{
-        //    for (int a = 0; a < nearbyTiles.GetLength(1); a++)
-        //    {
-        //        for (int b = 0; b < nearbyTiles.GetLength(0); b++)
-        //        {
-        //            int c = i - (1 + a);
-        //            int d = j - (1 + b);
-        //            if ((c>=0 && c<tiles.GetLength(0)) && (d>=0 && d<tiles.GetLength(1)))
-        //            {
-        //                nearbyTiles[a, b] = tiles[c, d];
-        //            }
-        //            else
-        //            {
-        //                nearbyTiles[a, b] = null;
-        //            }
-        //        }
-        //    }
-        //}
+        public void FindNearbyTiles(int i, int j)
+        {
+            for (int a = 0; a < nearbyTiles.GetLength(1); a++)
+            {
+                for (int b = 0; b < nearbyTiles.GetLength(0); b++)
+                {
+                    int c = (i + b)-1;
+                    int d = (j + a) -1;
+                    if ((c >= 0 && c < tiles.GetLength(0)) && (d >= 0 && d < tiles.GetLength(1)))
+                    {
+                        nearbyTiles[b, a] = tiles[c, d];
+                    }
+                    else
+                    {
+                        nearbyTiles[b, a] = null;
+                    }
+                }
+            }
+            // nearbyTiles[0,0] = tiles[i,j];
+        }
         public void ManageInventory()
         {
             if (currentTile.canInteract)
@@ -150,14 +153,20 @@ namespace RobotCrossing
                     {
                         tiles[i, j] = new CenterTile();
                     }
-                    else if (j % 2 == i % 2)
-                    {
-                        tiles[i, j] = new EmptyTile();
-                    }
                     else
                     {
-                        tiles[i, j] = new RockFarm();
+                        Tile tempE = new EmptyTile();
+                        Tile tempR = new RockFarm();
+                        tiles[i, j] = rnd.Next(0,3) == 2 ? tempR : tempE;
                     }
+                    //else if (j % 2 == i % 2)
+                    //{
+                    //    tiles[i, j] = new EmptyTile();
+                    //}
+                    //else
+                    //{
+                    //    tiles[i, j] = new RockFarm();
+                    //}
                     tiles[i, j].LoadContent(window);
                     tiles[i, j].position = new Vector2(tiles[i,j].size.X * (j - (tiles.GetLength(0)/2)) , tiles[i,j].size.Y*(i - (tiles.GetLength(1) / 2)));
 
@@ -177,7 +186,7 @@ namespace RobotCrossing
               Matrix.CreateTranslation(
                   new Vector3(((player.position.X * -1) - (player.spriteWidth / 2)) + window.ClientBounds.Width / 2, ((player.position.Y * -1) - player.spriteHeight) + window.ClientBounds.Height / 2, 0)));
 
-            foreach (Tile tile in tiles)
+            foreach (Tile tile in nearbyTiles)
             {
                 if (tile != null) {
                     tile.Draw(spriteBatch);
